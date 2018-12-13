@@ -14,11 +14,19 @@ export const Post = props => {
         <div className="likes">
           <img
             className="heart"
-            src="./pic/Screenshot from 2018-12-12 21-56-16.png
-            "
-            alt="heart"
+            data-tab={props.inputKey}
+            src={'./heartThumb.png'}
+            alt="commentThumb"
+            onClick={props.like}
+          />
+          <img
+            className="comment"
+            data-tab={props.inputKey}
+            src={'./commentThumb.png'}
+            alt="commentThumb"
           />
         </div>
+        <div className="numberOfLikes">{props.count} likes</div>
         {props.comments.map((com, index) => {
           return (
             <Comments

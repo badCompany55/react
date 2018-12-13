@@ -3,12 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import dummyData from './dummy-data.js';
 import {Post} from './comps/post.js';
+import {SearchBar} from './comps/searchBar.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       post: dummyData,
+      likesCounter: [0, 0, 0],
       currentUser: 'Zachery',
       newComment: '',
       currentPost: '',
@@ -38,28 +40,42 @@ class App extends Component {
     this.setState({post: thisData});
   };
 
+  likeAPost = event => {
+    let counterComments = this.state.likesCounter.slice();
+    let position = event.target.dataset.tab;
+    counterComments[position] += 1;
+    this.setState(prevState => {
+      return {likesCounter: counterComments};
+    });
+  };
+
   render() {
     return (
-      <div
-        className="App"
-        onKeyPress={event => {
-          if (event.key === 'Enter') {
-            this.addToComments();
-          }
-        }}>
-        {this.data.map((item, index) => {
-          return (
-            <Post
-              key={item[1].username}
-              inputKey={index}
-              thumb={item[1].thumbnailUrl}
-              username={item[1].username}
-              pic={item[1].imageUrl}
-              comments={item[1].comments}
-              input={this.captureInput}
-            />
-          );
-        })}
+      <div>
+        <SearchBar />
+        <div
+          className="App"
+          onKeyPress={event => {
+            if (event.key === 'Enter') {
+              this.addToComments();
+            }
+          }}>
+          {this.data.map((item, index) => {
+            return (
+              <Post
+                key={item[1].username}
+                inputKey={index}
+                thumb={item[1].thumbnailUrl}
+                username={item[1].username}
+                count={this.state.likesCounter[index]}
+                pic={item[1].imageUrl}
+                like={this.likeAPost}
+                comments={item[1].comments}
+                input={this.captureInput}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }
