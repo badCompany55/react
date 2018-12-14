@@ -10,7 +10,6 @@ class App extends Component {
     super(props);
     this.state = {
       post: dummyData,
-      likesCounter: [0, 0, 0],
       currentUser: 'Zachery',
       newComment: '',
       currentPost: '',
@@ -41,11 +40,11 @@ class App extends Component {
   };
 
   likeAPost = event => {
-    let counterComments = this.state.likesCounter.slice();
+    let counterComments = this.state.post.slice();
     let position = event.target.dataset.tab;
-    counterComments[position] += 1;
+    counterComments[position].likes += 1;
     this.setState(prevState => {
-      return {likesCounter: counterComments};
+      return {likes: counterComments};
     });
   };
 
@@ -67,7 +66,7 @@ class App extends Component {
                 inputKey={index}
                 thumb={item[1].thumbnailUrl}
                 username={item[1].username}
-                count={this.state.likesCounter[index]}
+                count={item[1].likes}
                 pic={item[1].imageUrl}
                 like={this.likeAPost}
                 comments={item[1].comments}

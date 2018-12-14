@@ -1,0 +1,23 @@
+.singlePostContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  font-size: 1.9rem;
+  margin-left: 15px;
+}
+
+.username {
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.text {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}

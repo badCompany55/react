@@ -1,0 +1,68 @@
+.post {
+  border: solid 1px lightgray;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.headerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.thumbNail {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  padding: 20px;
+}
+
+.user {
+  font-size: 2rem;
+}
+
+.postImg {
+  width: 100%;
+  max-width: 700px;
+}
+
+.commContain {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.addComment {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  padding: 20px 0px;
+  font-size: 2rem;
+  border: none;
+  margin-left: 15px;
+}
+
+.heart {
+  height: 50px;
+  width: 50px;
+}
+
+.numberOfLikes {
+  padding: 10px 0px;
+  font-size: 2rem;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.inputComment {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid lightgray;
+}
+
+.comment img {
+  width: 60px;
+  height: 40px;
+  text-align: right;
+}

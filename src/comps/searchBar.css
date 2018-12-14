@@ -1,0 +1,50 @@
+.searchContainer {
+  width: 100%;
+  max-width: 900px;
+  border-top: 3px solid lightgray;
+  border-bottom: 3px solid lightgray;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.middleContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid lightgray;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+}
+
+.picContainer {
+  display: flex;
+  align-items: center;
+  width: 30%;
+}
+
+.picContainer .instaLogo {
+  border-right: 1px solid black;
+}
+
+.picContainer img {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  width: 40%;
+  justify-content: space-around;
+}
+
+.search input {
+  width: 60%;
+}
+
+.sidContainer {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+}

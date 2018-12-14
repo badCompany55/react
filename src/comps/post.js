@@ -1,6 +1,7 @@
 import React from 'react';
 import {Comments} from './comments.js';
 import PropTypes from 'prop-types';
+import './post.css';
 
 export const Post = props => {
   return (
@@ -36,13 +37,16 @@ export const Post = props => {
             />
           );
         })}
-        <input
-          className="addComment"
-          type="text"
-          data-tab={props.inputKey}
-          placeholder="Add Comments"
-          onChange={props.input}
-        />
+        <div className="inputComment">
+          <input
+            className="addComment"
+            type="text"
+            data-tab={props.inputKey}
+            placeholder="Add Comments"
+            onChange={props.input}
+          />
+          <img src={'./addComment.png'} alt="addComment" />
+        </div>
       </div>
     </div>
   );
@@ -54,4 +58,5 @@ Post.propTypes = {
   pic: PropTypes.string,
   inputKey: PropTypes.number,
   input: PropTypes.func,
+  count: PropTypes.number,
 };
