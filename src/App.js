@@ -31,12 +31,17 @@ class App extends Component {
 
   addToComments = () => {
     let thisData = this.state.post.slice();
+    let currentInputBox = document.querySelectorAll('input');
+    console.log(currentInputBox);
     let commentToAdd = {
       username: this.state.currentUser,
       text: this.state.newComment,
     };
     thisData[this.state.currentPost].comments.push(commentToAdd);
     this.setState({post: thisData});
+    currentInputBox.forEach(box => {
+      return (box.value = '');
+    });
   };
 
   likeAPost = event => {
