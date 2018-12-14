@@ -14,11 +14,11 @@ export const Post = props => {
       <div className="commContain">
         <div className="likes">
           <img
+            onClick={props.like}
             className="heart"
             data-tab={props.inputKey}
             src={'./heartThumb.png'}
-            alt="commentThumb"
-            onClick={props.like}
+            alt="heartThumb"
           />
           <img
             className="comment"
@@ -45,7 +45,12 @@ export const Post = props => {
             placeholder="Add Comments"
             onChange={props.input}
           />
-          <img src={'./addComment.png'} alt="addComment" />
+          <img
+            data-tab={props.inputKey}
+            src={'./addComment.png'}
+            onClick={props.addComment}
+            alt="addComment"
+          />
         </div>
       </div>
     </div>

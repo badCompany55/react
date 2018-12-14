@@ -4,6 +4,7 @@ import './App.css';
 import dummyData from './dummy-data.js';
 import {Post} from './comps/post.js';
 import {SearchBar} from './comps/searchBar.js';
+import {TweenLite, CSSPlugin} from 'gsap/all';
 
 class App extends Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class App extends Component {
     this.data = Object.entries(this.state.post);
     this.comments = this.data.map(item => {
       return item[1].comments;
-      // console.log(item);
     });
-    // console.log(this.comments);
+    this.likeTween = null;
+    this.currentLike = null;
   }
 
   captureInput = event => {
@@ -76,6 +77,7 @@ class App extends Component {
                 like={this.likeAPost}
                 comments={item[1].comments}
                 input={this.captureInput}
+                addComment={this.addToComments}
               />
             );
           })}
