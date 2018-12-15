@@ -5,6 +5,7 @@ import dummyData from './dummy-data.js';
 import {Post} from './comps/post.js';
 import {SearchBar} from './comps/searchBar.js';
 import {TweenLite, CSSPlugin} from 'gsap/all';
+import moment from 'moment';
 
 class App extends Component {
   constructor(props) {
@@ -13,15 +14,42 @@ class App extends Component {
       post: dummyData,
       currentUser: 'Zachery',
       newComment: '',
-      currentPost: '',
+      currentPost: 0,
+      commentTimeStamp: [{timepassed: null}],
     };
     this.data = Object.entries(this.state.post);
     this.comments = this.data.map(item => {
       return item[1].comments;
     });
-    this.likeTween = null;
-    this.currentLike = null;
+    // this.likeTween = null;
+    // this.currentLike = null;
   }
+
+  componentDidMount() {
+    let cTs = this.state.post.map((post, index) => {
+      return {id: index, time: moment(), timePassed: null};
+    });
+    this.setState({commentTimeStamp: cTs});
+  }
+
+  setTime = () => {
+    let newCommentTime = this.state.commentTimeStamp.slice();
+    if (newCommentTime.length === this.state.post.length) {
+      const timePassed = newCommentTime[this.state.currentPost].time.fromNow();
+      newCommentTime[this.state.currentPost].timePassed = timePassed;
+      this.setState({currentTimeStamp: newCommentTime});
+    }
+  };
+
+  updateTime = () => {
+    let newCommentTime = this.state.commentTimeStamp.slice();
+    if (newCommentTime.length === this.state.post.length) {
+      const timePassed = newCommentTime.map(theTime => {
+        theTime.timePassed = theTime.time.fromNow();
+      });
+      this.setState({currentTimeStamp: timePassed});
+    }
+  };
 
   captureInput = event => {
     let input = event.target.value;
@@ -33,7 +61,6 @@ class App extends Component {
   addToComments = () => {
     let thisData = this.state.post.slice();
     let currentInputBox = document.querySelectorAll('input');
-    console.log(currentInputBox);
     let commentToAdd = {
       username: this.state.currentUser,
       text: this.state.newComment,
@@ -43,6 +70,7 @@ class App extends Component {
     currentInputBox.forEach(box => {
       return (box.value = '');
     });
+    this.setTime();
   };
 
   likeAPost = event => {
@@ -55,6 +83,7 @@ class App extends Component {
   };
 
   render() {
+    setInterval(this.updateTime, 1800000);
     return (
       <div>
         <SearchBar />
@@ -78,6 +107,9 @@ class App extends Component {
                 comments={item[1].comments}
                 input={this.captureInput}
                 addComment={this.addToComments}
+                time={
+                  this.state.commentTimeStamp[this.state.currentPost].timePassed
+                }
               />
             );
           })}

@@ -37,6 +37,10 @@ export const Post = props => {
             />
           );
         })}
+        <div className="timePassed">
+          {props.time === null ? <p>No Comments Yet</p> : <p>{props.time}</p>}
+        </div>
+
         <div className="inputComment">
           <input
             className="addComment"
