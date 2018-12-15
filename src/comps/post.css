@@ -58,6 +58,14 @@
   font-weight: bold;
 }
 
+.timePassed {
+  font-size: 2rem;
+  font-weight: bold;
+  color: gray;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
 .inputComment {
   display: flex;
   flex-wrap: wrap;

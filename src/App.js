@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import dummyData from './dummy-data.js';
 import {Post} from './comps/post.js';
 import {SearchBar} from './comps/searchBar.js';
-import {TweenLite, CSSPlugin} from 'gsap/all';
 import moment from 'moment';
 
 class App extends Component {
@@ -14,42 +12,40 @@ class App extends Component {
       post: dummyData,
       currentUser: 'Zachery',
       newComment: '',
-      currentPost: 0,
-      commentTimeStamp: [{timepassed: null}],
+      currentPost: '',
+      timePassed: '',
     };
     this.data = Object.entries(this.state.post);
     this.comments = this.data.map(item => {
       return item[1].comments;
     });
-    // this.likeTween = null;
-    // this.currentLike = null;
   }
 
   componentDidMount() {
-    let cTs = this.state.post.map((post, index) => {
-      return {id: index, time: moment(), timePassed: null};
-    });
-    this.setState({commentTimeStamp: cTs});
+    this.initialSetTime();
   }
 
-  setTime = () => {
-    let newCommentTime = this.state.commentTimeStamp.slice();
-    if (newCommentTime.length === this.state.post.length) {
-      const timePassed = newCommentTime[this.state.currentPost].time.fromNow();
-      newCommentTime[this.state.currentPost].timePassed = timePassed;
-      newCommentTime[this.state.currentPost].time = moment();
-      this.setState({currentTimeStamp: newCommentTime});
-    }
+  initialSetTime = () => {
+    const newObject = this.state.post.slice();
+    let newTimePassed = this.state.timePassed.slice();
+    let newCommentTime = newObject.map(object => {
+      const timestamp = object.timestamp;
+      const dateObject = moment(timestamp, 'MMMM-DD-YYYY hh:mm:ss');
+      const timePassed = dateObject.fromNow();
+      return timePassed;
+    });
+    this.setState({timePassed: newCommentTime});
   };
 
-  updateTime = () => {
-    let newCommentTime = this.state.commentTimeStamp.slice();
-    if (newCommentTime.length === this.state.post.length) {
-      const timePassed = newCommentTime.map(theTime => {
-        theTime.timePassed = theTime.time.fromNow();
-      });
-      this.setState({currentTimeStamp: timePassed});
-    }
+  setTime = () => {
+    const newTimePassed = this.state.timePassed.slice();
+    const tParray = newTimePassed.map((time, index) => {
+      if (index == this.state.currentPost) {
+        time = moment().fromNow();
+      }
+      return time;
+    });
+    this.setState({timePassed: tParray});
   };
 
   captureInput = event => {
@@ -84,20 +80,18 @@ class App extends Component {
   };
 
   render() {
-    setInterval(this.updateTime, 300000);
     return (
       <div>
         <SearchBar />
         <div
           className="App"
-          onKeyPress={event => {
-            if (event.key === 'Enter') {
-              this.addToComments();
-            }
-          }}>
+          onKeyPress={event =>
+            event.key == 'Enter' ? this.addToComments() : null
+          }>
           {this.data.map((item, index) => {
             return (
               <Post
+                enter={this.addToComments}
                 key={item[1].username}
                 inputKey={index}
                 thumb={item[1].thumbnailUrl}
@@ -108,9 +102,7 @@ class App extends Component {
                 comments={item[1].comments}
                 input={this.captureInput}
                 addComment={this.addToComments}
-                time={
-                  this.state.commentTimeStamp[this.state.currentPost].timePassed
-                }
+                time={this.state.timePassed[index]}
               />
             );
           })}
