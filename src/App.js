@@ -14,6 +14,7 @@ class App extends Component {
       newComment: '',
       currentPost: '',
       timePassed: '',
+      searchUser: '',
     };
     this.data = Object.entries(this.state.post);
     this.comments = this.data.map(item => {
@@ -24,6 +25,15 @@ class App extends Component {
   componentDidMount() {
     this.initialSetTime();
   }
+
+  search = () => {
+    const newObject = this.state.post.slice();
+    const userNames = newObject.filter(
+      object => object.username === this.state.searchUser,
+    );
+    console.log(userNames);
+    this.setState({post: userNames});
+  };
 
   initialSetTime = () => {
     const newObject = this.state.post.slice();
@@ -39,20 +49,47 @@ class App extends Component {
 
   setTime = () => {
     const newTimePassed = this.state.timePassed.slice();
+    let theTime;
     const tParray = newTimePassed.map((time, index) => {
       if (index == this.state.currentPost) {
         time = moment().fromNow();
+        theTime = moment();
       }
       return time;
     });
     this.setState({timePassed: tParray});
+    const newPostObject = this.state.post.map((object, index) => {
+      if (index == this.state.currentPost) {
+        console.log(object.timestamp);
+        object.timestamp = theTime;
+      }
+      return object;
+    });
+    console.log(newPostObject);
+    this.setState({post: newPostObject});
   };
+
+  updateTime = () => {
+    const newStateObject = this.state.post.slice();
+    let timestamp;
+    newStateObject.map(object => {
+      timestamp.push(object.timestamp.fromNow());
+    });
+    this.setState({timePassed: timestamp});
+  };
+
+  // for the comments
 
   captureInput = event => {
     let input = event.target.value;
     let value = event.target.dataset.tab;
     this.setState({newComment: input});
     this.setState({currentPost: value});
+  };
+
+  captureSearchInput = event => {
+    let input = event.target.value;
+    this.setState({searchUser: input});
   };
 
   addToComments = () => {
@@ -82,30 +119,43 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SearchBar />
+        <div
+          onKeyPress={event => (event.key == 'Enter' ? this.search() : null)}>
+          <SearchBar search={this.captureSearchInput} />
+        </div>
         <div
           className="App"
           onKeyPress={event =>
             event.key == 'Enter' ? this.addToComments() : null
           }>
-          {this.data.map((item, index) => {
-            return (
-              <Post
-                enter={this.addToComments}
-                key={item[1].username}
-                inputKey={index}
-                thumb={item[1].thumbnailUrl}
-                username={item[1].username}
-                count={item[1].likes}
-                pic={item[1].imageUrl}
-                like={this.likeAPost}
-                comments={item[1].comments}
-                input={this.captureInput}
-                addComment={this.addToComments}
-                time={this.state.timePassed[index]}
-              />
-            );
-          })}
+          <div>
+            {this.state.post.length !== 0 ? (
+              this.state.post.map((item, index) => {
+                return (
+                  <Post
+                    length={this.state.post.length}
+                    enter={this.addToComments}
+                    key={item.username}
+                    inputKey={index}
+                    thumb={item.thumbnailUrl}
+                    username={item.username}
+                    count={item.likes}
+                    pic={item.imageUrl}
+                    like={this.likeAPost}
+                    comments={item.comments}
+                    input={this.captureInput}
+                    addComment={this.addToComments}
+                    time={this.state.timePassed[index]}
+                  />
+                );
+              })
+            ) : (
+              <div className="error">
+                Sorry there arn't any results for:
+                <p className="noResults">{this.state.searchUser}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

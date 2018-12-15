@@ -10,7 +10,7 @@ export const SearchBar = props => {
           <img src={'./instagram.png'} alt="instagram" />
         </div>
         <div className="search">
-          <input type="text" placeholder="Search" />
+          <input type="text" placeholder="Search" onChange={props.search} />
         </div>
         <div className="sidContainer">
           <img src={'./extra.png'} alt="unsure" />
