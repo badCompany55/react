@@ -37,6 +37,7 @@ class App extends Component {
     if (newCommentTime.length === this.state.post.length) {
       const timePassed = newCommentTime[this.state.currentPost].time.fromNow();
       newCommentTime[this.state.currentPost].timePassed = timePassed;
+      newCommentTime[this.state.currentPost].time = moment();
       this.setState({currentTimeStamp: newCommentTime});
     }
   };
@@ -83,7 +84,7 @@ class App extends Component {
   };
 
   render() {
-    setInterval(this.updateTime, 1800000);
+    setInterval(this.updateTime, 300000);
     return (
       <div>
         <SearchBar />
